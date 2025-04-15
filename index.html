@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Registration</title>
+    <title>Event Booking System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -23,70 +23,41 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="./index.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#upcoming-events">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./more-events.html">Show all events</a>
+                        <a class="nav-link" href="#all-events">Show All Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./registrattions.html">Registrations</a>
+                        <a class="nav-link" href="#registrations">Registrations</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-5">
+    <!-- Upcoming Events Section -->
+    <div id="upcoming-events" class="container mt-5">
         <h2 class="text-center mb-4">Upcoming Events</h2>
         <p class="text-center">Find the best events happening near you!</p>
         <p class="text-center">Click on the Book Now button to book your tickets.</p>
         <p class="text-center">Click on the Show More Events button to see more events.</p>
-    </div>
-    <div id="eventCards" class="row mt-4 justify-content-center ms-5 me-5"></div>
-    <div class="text-center mt-4">
-        <button id="showMoreEvents" class="btn btn-primary d-none">Show More Events</button>
+        <div id="eventCards" class="row mt-4 justify-content-center ms-5 me-5"></div>
+        <div class="text-center mt-4">
+            <button id="showMoreEvents" class="btn btn-primary d-none">Show More Events</button>
+        </div>
     </div>
 
-    <!-- Body -->
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Create an Event</h2>
-        <form id="createEventForm">
-            <div class="mb-3">
-                <label for="eventName" class="form-label">Event Name</label>
-                <input type="text" class="form-control" id="eventName" placeholder="Enter event name">
-            </div>
-            <div class="mb-3">
-                <label for="organizerName" class="form-label">Organizer Name</label>
-                <input type="text" class="form-control" id="organizerName" placeholder="Enter organizer name">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Organizer Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter organizer email">
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="eventType" class="form-label">Event Type</label>
-                    <input type="text" class="form-control" id="eventType" placeholder="Enter event type">
-                </div>
-                <div class="col-md-3">
-                    <label for="eventDate" class="form-label">Event Date</label>
-                    <input type="text" class="form-control" id="eventDate" placeholder="Select event date">
-                </div>
-                <div class="col-md-3">
-                    <label for="contactNumber" class="form-label">Contact Number</label>
-                    <input type="tel" class="form-control" id="contactNumber" placeholder="Enter contact number">
-                </div>
-                <div class="col-md-3">
-                    <label for="attendees" class="form-label">Number of Attendees</label>
-                    <input type="number" class="form-control" id="attendees" placeholder="Enter number of attendees">
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="eventDetails" class="form-label">Other Details</label>
-                <textarea class="form-control" id="eventDetails" rows="3" placeholder="Enter event details"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Create Event</button>
-        </form>
+    <!-- All Events Section -->
+    <div id="all-events" class="container mt-5">
+        <h2 class="text-center mb-4">All Events</h2>
+        <div id="allEventCards" class="row mt-4 justify-content-center"></div>
+    </div>
+
+    <!-- Registrations Section -->
+    <div id="registrations" class="container mt-5">
+        <h2 class="text-center mb-4">Event Registrations</h2>
+        <div id="registrationsContainer" class="mt-4"></div>
     </div>
 
     <!-- Booking Modal -->
@@ -128,114 +99,108 @@
     </div>
 
     <!-- Footer -->
-    <footer class=" text-center text-lg-start mt-5">
+    <footer class="text-center text-lg-start mt-5">
         <div class="text-center p-3">
             © 2025 Event Booking System. All rights reserved.
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="./public/js/firebase-config.js" type="module"></script>
-    <script src="./public/js/event-fetch.js" type="module"></script>
-
+    <script src="./js/firebase-config.js" type="module"></script>
+    <script src="./js/event-fetch.js" type="module"></script>
+    <script src="./js/more-events.js" type="module"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             flatpickr('#eventDate', {
                 enableTime: false,
                 dateFormat: 'Y-m-d',
                 minDate: 'today',
             });
 
-            const createEventForm = document.getElementById('createEventForm');
-            createEventForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+            // Add logic for fetching and displaying events and registrations
+            const registrationsContainer = document.getElementById('registrationsContainer');
+            const allEventCards = document.getElementById('allEventCards');
 
-                const eventName = document.getElementById('eventName').value.trim();
-                const organizerName = document.getElementById('organizerName').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const eventType = document.getElementById('eventType').value.trim();
-                const eventDate = document.getElementById('eventDate').value.trim();
-                const contactNumber = document.getElementById('contactNumber').value.trim();
-                const attendees = document.getElementById('attendees').value.trim();
-                const eventDetails = document.getElementById('eventDetails').value.trim();
+            // Fetch and display registrations
+            const { initializeFirebase } = await import('./js/firebase-config.js');
+            const database = await initializeFirebase();
+            const { ref, onValue } = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js');
 
-                let isValid = true;
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                const phoneRegex = /^[0-9]{10}$/;
-                const nameRegex = /^[A-Za-z\s]+$/;
-                const numberRegex = /^[0-9]+$/;
+            const eventsRef = ref(database, 'events');
+            onValue(eventsRef, (snapshot) => {
+                const events = snapshot.val();
+                registrationsContainer.innerHTML = '';
+                allEventCards.innerHTML = '';
 
-                if (!nameRegex.test(eventName)) {
-                    alert('Event Name must contain only alphabets.');
-                    isValid = false;
-                } else if (!nameRegex.test(organizerName)) {
-                    alert('Organizer Name must contain only alphabets.');
-                    isValid = false;
-                } else if (!emailRegex.test(email)) {
-                    alert('Please enter a valid email address.');
-                    isValid = false;
-                } else if (eventType === '') {
-                    alert('Event Type is required.');
-                    isValid = false;
-                } else if (eventDate === '') {
-                    alert('Event Date is required.');
-                    isValid = false;
-                } else if (!phoneRegex.test(contactNumber)) {
-                    alert('Please enter a valid 10-digit contact number.');
-                    isValid = false;
-                } else if (!numberRegex.test(attendees) || attendees <= 0) {
-                    alert('Number of Attendees must be a valid positive number.');
-                    isValid = false;
-                } else if (eventDetails === '') {
-                    alert('Event Details are required.');
-                    isValid = false;
+                if (!events) {
+                    registrationsContainer.innerHTML = '<p class="text-center">No events found.</p>';
+                    allEventCards.innerHTML = '<p class="text-center">No events found.</p>';
+                    return;
                 }
 
-                if (isValid) {
-                    createEventForm.submit();
-                }
-            });
+                for (const eventId in events) {
+                    const event = events[eventId];
 
-            const bookingForm = document.getElementById('bookingForm');
-            bookingForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+                    // Add to All Events Section
+                    const eventCard = `
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${event.title}</h5>
+                                    <p class="card-text"><strong>Organizer:</strong> ${event.organizer}</p>
+                                    <p class="card-text"><strong>Type:</strong> ${event.type}</p>
+                                    <p class="card-text"><strong>Available Attendees:</strong> ${event.attendees - (event.booked || 0)}</p>
+                                    <button class="btn btn-primary book-now" data-id="${eventId}">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    allEventCards.innerHTML += eventCard;
 
-                const userName = document.getElementById('userName').value.trim();
-                const userEmail = document.getElementById('userEmail').value.trim();
-                const userPhone = document.getElementById('userPhone').value.trim();
-                const userTickets = document.getElementById('userTickets').value.trim();
+                    // Add to Registrations Section
+                    const eventTitle = document.createElement('h3');
+                    eventTitle.textContent = event.title;
+                    eventTitle.classList.add('mt-4', 'mb-3', 'text-primary');
+                    registrationsContainer.appendChild(eventTitle);
 
-                let isValid = true;
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                const phoneRegex = /^[0-9]{10}$/;
-                const nameRegex = /^[A-Za-z\s]+$/;
-                const numberRegex = /^[0-9]+$/;
+                    const eventRegistrationsContainer = document.createElement('div');
+                    eventRegistrationsContainer.classList.add('row', 'gy-3');
+                    registrationsContainer.appendChild(eventRegistrationsContainer);
 
-                if (!nameRegex.test(userName)) {
-                    alert('Name must contain only alphabets.');
-                    isValid = false;
-                } else if (!emailRegex.test(userEmail)) {
-                    alert('Please enter a valid email address.');
-                    isValid = false;
-                } else if (!phoneRegex.test(userPhone)) {
-                    alert('Please enter a valid 10-digit phone number.');
-                    isValid = false;
-                } else if (!numberRegex.test(userTickets) || userTickets <= 0) {
-                    alert('Number of Tickets must be a valid positive number.');
-                    isValid = false;
-                }
+                    const registrationsRef = ref(database, `bookings/${eventId}`);
+                    onValue(registrationsRef, (regSnapshot) => {
+                        const registrations = regSnapshot.val();
+                        eventRegistrationsContainer.innerHTML = '';
 
-                if (isValid) {
-                    alert('Booking successful!');
-                    bookingForm.reset();
-                    const bookingModal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
-                    bookingModal.hide();
+                        if (!registrations) {
+                            eventRegistrationsContainer.innerHTML = `
+                                <p class="text-muted">No registrations for this event.</p>
+                            `;
+                        } else {
+                            for (const regId in registrations) {
+                                const registration = registrations[regId];
+                                const registrationCard = `
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${registration.name}</h5>
+                                                <p class="card-text"><strong>Email:</strong> ${registration.email}</p>
+                                                <p class="card-text"><strong>Phone:</strong> ${registration.phone}</p>
+                                                <p class="card-text"><strong>Tickets:</strong> ${registration.tickets}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                                eventRegistrationsContainer.innerHTML += registrationCard;
+                            }
+                        }
+                    });
                 }
             });
         });
     </script>
-
 </body>
 
 </html>
