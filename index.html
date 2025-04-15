@@ -149,7 +149,7 @@
                 minDate: 'today',
             });
 
-            const { initializeFirebase } = await import('./js/firebase-config.js');
+            const { initializeFirebase } = await import('./public/js/firebase-config.js');
             const database = await initializeFirebase();
             const { ref, push, onValue } = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js');
 
@@ -225,7 +225,7 @@
             minDate: 'today',
         });
 
-        const { initializeFirebase } = await import('./js/firebase-config.js');
+        const { initializeFirebase } = await import('./public/js/firebase-config.js');
         const database = await initializeFirebase();
         const { ref, push, onValue } = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js');
 
@@ -285,7 +285,6 @@
                     `;
                 allEventCards.innerHTML += eventCard;
             }
-        });
         });
     </script>
 </body>
