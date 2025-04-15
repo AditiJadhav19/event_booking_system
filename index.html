@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Aditi Event Organizers</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/more-events.html">Show all events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registrattions.html">Registrations</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Upcoming Events</h2>
+        <p class="text-center">Find the best events happening near you!</p>
+        <p class="text-center">Click on the Book Now button to book your tickets.</p>
+        <p class="text-center">Click on the Show More Events button to see more events.</p>
+    </div>
+    <div id="eventCards" class="row mt-4 justify-content-center ms-5 me-5"></div>
+    <div class="text-center mt-4">
+        <button id="showMoreEvents" class="btn btn-primary d-none">Show More Events</button>
+    </div>
+
+    <!-- Body -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Create an Event</h2>
+        <form id="createEventForm">
+            <div class="mb-3">
+                <label for="eventName" class="form-label">Event Name</label>
+                <input type="text" class="form-control" id="eventName" placeholder="Enter event name">
+            </div>
+            <div class="mb-3">
+                <label for="organizerName" class="form-label">Organizer Name</label>
+                <input type="text" class="form-control" id="organizerName" placeholder="Enter organizer name">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Organizer Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter organizer email">
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="eventType" class="form-label">Event Type</label>
+                    <input type="text" class="form-control" id="eventType" placeholder="Enter event type">
+                </div>
+                <div class="col-md-3">
+                    <label for="eventDate" class="form-label">Event Date</label>
+                    <input type="text" class="form-control" id="eventDate" placeholder="Select event date">
+                </div>
+                <div class="col-md-3">
+                    <label for="contactNumber" class="form-label">Contact Number</label>
+                    <input type="tel" class="form-control" id="contactNumber" placeholder="Enter contact number">
+                </div>
+                <div class="col-md-3">
+                    <label for="attendees" class="form-label">Number of Attendees</label>
+                    <input type="number" class="form-control" id="attendees" placeholder="Enter number of attendees">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="eventDetails" class="form-label">Other Details</label>
+                <textarea class="form-control" id="eventDetails" rows="3" placeholder="Enter event details"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Event</button>
+        </form>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalLabel">Book Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bookingForm">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="userName" placeholder="Enter your name"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="userEmail" placeholder="Enter your email"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="userPhone" placeholder="Enter your phone number"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userTickets" class="form-label">Number of Tickets</label>
+                            <input type="number" class="form-control" id="userTickets"
+                                placeholder="Enter number of tickets" required>
+                            <small id="ticketLimit" class="form-text text-muted"></small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Book Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class=" text-center text-lg-start mt-5">
+        <div class="text-center p-3">
+            © 2025 Event Booking System. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="js/firebase-config.js" type="module"></script>
+    <script src="js/event-fetch.js" type="module"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            flatpickr('#eventDate', {
+                enableTime: false,
+                dateFormat: 'Y-m-d',
+                minDate: 'today',
+            });
+
+            const createEventForm = document.getElementById('createEventForm');
+            createEventForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const eventName = document.getElementById('eventName').value.trim();
+                const organizerName = document.getElementById('organizerName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const eventType = document.getElementById('eventType').value.trim();
+                const eventDate = document.getElementById('eventDate').value.trim();
+                const contactNumber = document.getElementById('contactNumber').value.trim();
+                const attendees = document.getElementById('attendees').value.trim();
+                const eventDetails = document.getElementById('eventDetails').value.trim();
+
+                let isValid = true;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^[0-9]{10}$/;
+                const nameRegex = /^[A-Za-z\s]+$/;
+                const numberRegex = /^[0-9]+$/;
+
+                if (!nameRegex.test(eventName)) {
+                    alert('Event Name must contain only alphabets.');
+                    isValid = false;
+                } else if (!nameRegex.test(organizerName)) {
+                    alert('Organizer Name must contain only alphabets.');
+                    isValid = false;
+                } else if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address.');
+                    isValid = false;
+                } else if (eventType === '') {
+                    alert('Event Type is required.');
+                    isValid = false;
+                } else if (eventDate === '') {
+                    alert('Event Date is required.');
+                    isValid = false;
+                } else if (!phoneRegex.test(contactNumber)) {
+                    alert('Please enter a valid 10-digit contact number.');
+                    isValid = false;
+                } else if (!numberRegex.test(attendees) || attendees <= 0) {
+                    alert('Number of Attendees must be a valid positive number.');
+                    isValid = false;
+                } else if (eventDetails === '') {
+                    alert('Event Details are required.');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    createEventForm.submit();
+                }
+            });
+
+            const bookingForm = document.getElementById('bookingForm');
+            bookingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const userName = document.getElementById('userName').value.trim();
+                const userEmail = document.getElementById('userEmail').value.trim();
+                const userPhone = document.getElementById('userPhone').value.trim();
+                const userTickets = document.getElementById('userTickets').value.trim();
+
+                let isValid = true;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^[0-9]{10}$/;
+                const nameRegex = /^[A-Za-z\s]+$/;
+                const numberRegex = /^[0-9]+$/;
+
+                if (!nameRegex.test(userName)) {
+                    alert('Name must contain only alphabets.');
+                    isValid = false;
+                } else if (!emailRegex.test(userEmail)) {
+                    alert('Please enter a valid email address.');
+                    isValid = false;
+                } else if (!phoneRegex.test(userPhone)) {
+                    alert('Please enter a valid 10-digit phone number.');
+                    isValid = false;
+                } else if (!numberRegex.test(userTickets) || userTickets <= 0) {
+                    alert('Number of Tickets must be a valid positive number.');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    alert('Booking successful!');
+                    bookingForm.reset();
+                    const bookingModal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+                    bookingModal.hide();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

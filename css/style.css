@@ -1,0 +1,87 @@
+/* General Body Styling */
+body {
+    background-color: #ede7f6;
+    /* Softer light purple background */
+    color: #5e35b1;
+    /* Medium purple text for contrast */
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #9575cd !important;
+    /* Lighter purple background */
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: #ffffff !important;
+    /* White text for navbar links */
+}
+
+.navbar .nav-link:hover {
+    color: #d1c4e9 !important;
+    /* Light purple hover effect */
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #7e57c2 !important;
+    /* Softer purple button */
+    border-color: #7e57c2 !important;
+}
+
+.btn-primary:hover {
+    background-color: #5e35b1 !important;
+    /* Slightly darker purple on hover */
+    border-color: #5e35b1 !important;
+}
+
+/* Form Inputs */
+.form-control {
+    border: 1px solid #7e57c2 !important;
+    /* Softer purple border for inputs */
+}
+
+.form-control:focus {
+    border-color: #5e35b1 !important;
+    /* Slightly darker purple on focus */
+    box-shadow: 0 0 5px rgba(126, 87, 194, 0.5) !important;
+    /* Softer purple glow */
+}
+
+/* Card Styling */
+.card {
+    border: 1px solid #7e57c2 !important;
+    /* Softer purple border for cards */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    /* Subtle shadow */
+}
+
+.card .card-title {
+    color: #7e57c2 !important;
+    /* Softer purple card title */
+}
+
+.card .btn-primary {
+    background-color: #7e57c2 !important;
+    /* Softer purple button in cards */
+    border-color: #7e57c2 !important;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #7e57c2 !important;
+    /* Softer purple footer */
+    color: #ffffff !important;
+}
+
+footer a {
+    color: #d1c4e9 !important;
+    /* Light purple links in footer */
+}
+
+footer a:hover {
+    color: #ffffff !important;
+    /* White on hover */
+}

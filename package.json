@@ -1,0 +1,18 @@
+{
+  "name": "event_booking_system",
+  "version": "1.0.0",
+  "description": "## Project Overview The **Event Booking System UI** is a responsive web application designed to provide a user-friendly interface for booking events. It includes a calendar for selecting dates and a form for collecting user information. The project focuses on intuitive navigation, interactive features, and seamless functionality across devices.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^6.2.6"
+  }
+}

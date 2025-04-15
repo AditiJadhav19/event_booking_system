@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registrations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Aditi Event Organizers</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/more-events.html">Show all events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/registrattions.html">Registrations</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Event Registrations</h2>
+        <div id="registrationsContainer" class="mt-4"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start mt-5">
+        <div class="text-center p-3">
+            © 2025 Event Booking System. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/firebase-config.js" type="module"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const registrationsContainer = document.getElementById('registrationsContainer');
+
+            // Initialize Firebase
+            const { initializeFirebase } = await import('./js/firebase-config.js');
+            const database = await initializeFirebase();
+            const { ref, onValue } = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js');
+
+            // Fetch events
+            const eventsRef = ref(database, 'events');
+            onValue(eventsRef, (snapshot) => {
+                const events = snapshot.val();
+                registrationsContainer.innerHTML = ''; // Clear container
+
+                if (!events) {
+                    registrationsContainer.innerHTML = '<p class="text-center">No events found.</p>';
+                    return;
+                }
+
+                // Loop through each event
+                for (const eventId in events) {
+                    const event = events[eventId];
+
+                    // Create event title
+                    const eventTitle = document.createElement('h3');
+                    eventTitle.textContent = event.title;
+                    eventTitle.classList.add('mt-4', 'mb-3', 'text-primary');
+                    registrationsContainer.appendChild(eventTitle);
+
+                    // Create container for registrations
+                    const eventRegistrationsContainer = document.createElement('div');
+                    eventRegistrationsContainer.classList.add('row', 'gy-3');
+                    registrationsContainer.appendChild(eventRegistrationsContainer);
+
+                    // Fetch registrations for the event
+                    const registrationsRef = ref(database, `bookings/${eventId}`);
+                    onValue(registrationsRef, (regSnapshot) => {
+                        const registrations = regSnapshot.val();
+                        eventRegistrationsContainer.innerHTML = ''; // Clear previous content
+
+                        if (!registrations) {
+                            // No registrations
+                            eventRegistrationsContainer.innerHTML = `
+                                <p class="text-muted">No registrations for this event.</p>
+                            `;
+                        } else {
+                            // Loop through registrations
+                            for (const regId in registrations) {
+                                const registration = registrations[regId];
+
+                                // Create registration card
+                                const registrationCard = `
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${registration.name}</h5>
+                                                <p class="card-text"><strong>Email:</strong> ${registration.email}</p>
+                                                <p class="card-text"><strong>Phone:</strong> ${registration.phone}</p>
+                                                <p class="card-text"><strong>Tickets:</strong> ${registration.tickets}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                                eventRegistrationsContainer.innerHTML += registrationCard;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
