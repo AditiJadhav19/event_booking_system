@@ -43,9 +43,6 @@
         <p class="text-center">Click on the Book Now button to book your tickets.</p>
         <p class="text-center">Click on the Show More Events button to see more events.</p>
         <div id="eventCards" class="row mt-4 justify-content-center ms-5 me-5"></div>
-        <div class="text-center mt-4">
-            <button id="showMoreEvents" class="btn btn-primary d-none">Show More Events</button>
-        </div>
     </div>
 
     <!-- Add Event Section -->
@@ -153,7 +150,6 @@
             const database = await initializeFirebase();
             const { ref, push, onValue } = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js');
 
-            // Add Event Logic
             const addEventForm = document.getElementById('addEventForm');
             addEventForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -180,7 +176,6 @@
                 addEventForm.reset();
             });
 
-            // Fetch and display events
             const allEventCards = document.getElementById('allEventCards');
             const eventsRef = ref(database, 'events');
             onValue(eventsRef, (snapshot) => {
@@ -211,10 +206,9 @@
                 }
             });
 
-            // Smooth scroll to "All Events" section when "Show More Events" is clicked
             const showMoreEventsButton = document.getElementById('showMoreEvents');
             showMoreEventsButton.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default behavior (e.g., page refresh)
+                e.preventDefault();
                 const allEventsSection = document.getElementById('all-events');
                 allEventsSection.scrollIntoView({ behavior: 'smooth' });
             });
@@ -229,7 +223,6 @@
         const database = await initializeFirebase();
         const { ref, push, onValue } = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js');
 
-        // Add Event Logic
         const addEventForm = document.getElementById('addEventForm');
         addEventForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -256,7 +249,6 @@
             addEventForm.reset();
         });
 
-        // Fetch and display events
         const allEventCards = document.getElementById('allEventCards');
         const eventsRef = ref(database, 'events');
         onValue(eventsRef, (snapshot) => {
